@@ -125,11 +125,25 @@ func main() {
 
 		switch update.Message.Text {
 			case "Программисты":
-				k := string(replyMarkup([][]string{{"C➕➕"}, {"Python"}, {"Golang"}}))
+				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}}))
 				sendMessage(update.Message.Chat.Id, "Программисты", k)
 				log.Println("JSON:", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
+			case "Все":
+				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
+				if err != nil {
+					log.Println(err)
+				}
+				for rows.Next() {
+					var publish_date time.Time
+					var title, description string
+					err = rows.Scan(&publish_date, &title, &description)
+					if err != nil {
+						log.Println(err)
+					}
+					sendMessage(update.Message.Chat.Id, publish_date + " " + title + " " + description, "")
+				}
 			case "Дизайнеры":
 				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
 			case "Все вакансии":
