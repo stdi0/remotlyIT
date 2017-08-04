@@ -128,9 +128,9 @@ func main() {
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Кнопка 2":
-				sendNews(update.Message.Chat.Id, "Нажата кнопка 2", string(j))
+				sendMessage(update.Message.Chat.Id, "Нажата кнопка 2", string(j))
 			case "Кнопка 3":
-				sendNews(update.Message.Chat.Id, "Нажата кнопка 2", string(j))
+				sendMessage(update.Message.Chat.Id, "Нажата кнопка 3", string(j))
 			default:
 				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(j))
 				//log.Println(message)
