@@ -123,6 +123,11 @@ func main() {
 		}
 		log.Println("Update: ", update)
 
+		db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+		if err != nil {
+			log.Println(err)
+		}
+
 		switch update.Message.Text {
 			case "Программисты":
 				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}}))
