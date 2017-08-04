@@ -156,7 +156,7 @@ func main() {
 			if err != nil {
 				log.Println(err)
 			}
-			if _, err = db.Exec("INSERT INTO Jobs (date, title, description) VALUES ($1, $2, $3)", time.Now(), r.Form["title"][0], r.Form["description"][0]); err != nil {
+			if _, err = db.Exec("INSERT INTO Jobs (publish_date, title, description) VALUES ($1, $2, $3)", time.Now(), r.Form["title"][0], r.Form["description"][0]); err != nil {
 					log.Println(err)
 			}
 		}
