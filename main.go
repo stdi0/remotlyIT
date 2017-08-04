@@ -149,8 +149,8 @@ func main() {
 	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
 		if r.Methos == http.MethodPost {
 			r.ParseForm()
-			log.Println('Title', r.Form["title"][0])
-			log.Println('Description', r.Form["description"][0])
+			log.Println("Title", r.Form["title"][0])
+			log.Println("Description", r.Form["description"][0])
 		}
 		t, _ := template.ParseFiles("post.html")
 		t.Execute(w, nil)
