@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -144,6 +145,15 @@ func main() {
 		}*/
 		r.Body.Close()
 	}
+	})
+	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
+		if r.Methos == http.MethodPost {
+			r.ParseForm()
+			log.Println('Title', r.Form["title"][0])
+			log.Println('Description', r.Form["description"][0])
+		}
+		t, _ := template.ParseFiles("post.html")
+		t.Execute(w, nil)
 	})
 	http.ListenAndServe(":"+port, nil)
 	return
