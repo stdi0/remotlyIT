@@ -132,7 +132,7 @@ func main() {
 			case "Кнопка 3":
 				sendNews(update.Message.Chat.Id, "Нажата кнопка 2", string(j))
 			default:
-				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(json.Marshal(replyMarkup1)))
+				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(j))
 				//log.Println(message)
 		}
 		/*for _, v := range update.Result {
