@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"html/template"
 	"io/ioutil"
+	"time"
 	"log"
 	"net/http"
 	"strconv"
@@ -149,8 +150,13 @@ func main() {
 	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			r.ParseForm()
-			log.Println("Title", r.Form["title"][0])
-			log.Println("Description", r.Form["description"][0])
+			db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+			if err != nil {
+				log.Println(err)
+			}
+			if _, err = db.Exec("INSERT INTO Jobs (date, title, description) VALUES ($1, $2, $3)", time.Now(), r.Form["title"][0], r.Form["description"][0]); err != nil {
+					log.Println(err)
+			}
 		}
 		t, _ := template.ParseFiles("post.html")
 		t.Execute(w, nil)
