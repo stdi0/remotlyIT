@@ -99,6 +99,16 @@ func sendMessage(chatID int, text string, replyMarkup string) Message {
 	return message
 } 
 
+func replyMarkup(keyboard [][]string) []byte {
+	replyMarkup := ReplyKeyboardMarkup{
+		Keyboard: keyboard, 
+		ResizeKeyboard: true, 
+		OneTimeKeyboard: true,
+	}
+	j, _ := json.Marshal(replyMarkup)
+	return j
+}
+
 func main() {
 	SetWebhook()
 	port := os.Getenv("PORT")
@@ -113,30 +123,17 @@ func main() {
 		}
 		log.Println("Update: ", update)
 
-		keyboard := [][]string{{"Кнопка 1"}, {"Кнопка 2"}, {"Кнопка 3"}}
-
-		replyMarkup := ReplyKeyboardMarkup{
-			Keyboard: keyboard, 
-			ResizeKeyboard: true, 
-			OneTimeKeyboard: true,
-		}
-
-		j, err := json.Marshal(replyMarkup)
-		if err != nil {
-			log.Println(err)
-		}
-
 		switch update.Message.Text {
-			case "Кнопка 1":
-				sendMessage(update.Message.Chat.Id, "Нажата кнопка 1", string(j))
+			case "Программисты":
+				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"C++"}, {"Python"}, {"Golang"}}))
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
-			case "Кнопка 2":
-				sendMessage(update.Message.Chat.Id, "Нажата кнопка 2", string(j))
-			case "Кнопка 3":
-				sendMessage(update.Message.Chat.Id, "Нажата кнопка 3", string(j))
+			case "Дизайнеры":
+				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
+			case "Все вакансии":
+				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
 			default:
-				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(j))
+				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}}))
 				//log.Println(message)
 		}
 		/*for _, v := range update.Result {
