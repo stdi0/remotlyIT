@@ -106,6 +106,7 @@ func replyMarkup(keyboard [][]string) []byte {
 		OneTimeKeyboard: true,
 	}
 	j, _ := json.Marshal(replyMarkup)
+	log.Println('JSON:', j)
 	return j
 }
 
