@@ -125,7 +125,7 @@ func main() {
 
 		switch update.Message.Text {
 			case "Программисты":
-				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"C++"}, {"Python"}, {"Golang"}}))
+				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"C++"}, {"Python"}, {"Golang"}})))
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Дизайнеры":
@@ -133,7 +133,7 @@ func main() {
 			case "Все вакансии":
 				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
 			default:
-				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}}))
+				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
 				//log.Println(message)
 		}
 		/*for _, v := range update.Result {
