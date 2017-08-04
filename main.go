@@ -125,7 +125,7 @@ func main() {
 
 		switch update.Message.Text {
 			case "Программисты":
-				k := string(replyMarkup([][]string{{"C++"}, {"Python"}, {"Golang"}}))
+				k := string(replyMarkup([][]string{{"C➕➕"}, {"Python"}, {"Golang"}}))
 				sendMessage(update.Message.Chat.Id, "Программисты", k)
 				log.Println("JSON:", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
