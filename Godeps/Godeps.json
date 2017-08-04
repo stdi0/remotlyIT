@@ -1,0 +1,6 @@
+{
+	"ImportPath": "github.com/stdi0/remotly",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": []
+}
