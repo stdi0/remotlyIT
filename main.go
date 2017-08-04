@@ -1,8 +1,10 @@
 package main
 
 import (
+	_ "github.com/lib/pq"
 	"encoding/json"
 	"html/template"
+	"database/sql"
 	"io/ioutil"
 	"time"
 	"log"
