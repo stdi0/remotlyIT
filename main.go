@@ -127,7 +127,7 @@ func main() {
 			case "Программисты":
 				k := string(replyMarkup([][]string{{"C++"}, {"Python"}, {"Golang"}}))
 				sendMessage(update.Message.Chat.Id, "Программисты", k)
-				log.Println('JSON:', j)
+				log.Println("JSON:", j)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Дизайнеры":
