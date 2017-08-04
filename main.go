@@ -174,7 +174,7 @@ func main() {
 			if err != nil {
 				log.Println(err)
 			}
-			if _, err = db.Exec("INSERT INTO Jobs (publish_date, title, description, section) VALUES ($1, $2, $3)", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0]); err != nil {
+			if _, err = db.Exec("INSERT INTO Jobs (publish_date, title, description, section) VALUES ($1, $2, $3, $4)", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0]); err != nil {
 					log.Println(err)
 			}
 		}
