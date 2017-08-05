@@ -136,7 +136,7 @@ func selectAndSend(tag string, chatID int) {
 		count++
 	}
 	if count == 0 {
-		sendMessage(chatID, publishDate.String() + "Вакансий нет", "")
+		sendMessage(chatID, "Вакансий нет", "")
 	}
 }
 
@@ -182,7 +182,7 @@ func main() {
 					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")
 				}
 				if count == 0 {
-					sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
+					sendMessage(update.Message.Chat.Id, "Вакансий нет", "")
 				}
 			case "C➕➕":
 				selectAndSend("c++", update.Message.Chat.Id)
