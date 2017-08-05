@@ -175,7 +175,7 @@ func main() {
 				log.Println(err)
 			}
 			var lastID int
-			if err = db.Exec("INSERT INTO Jobs (publish_date, title, description, section) VALUES ($1, $2, $3, $4) RETURNING id", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0]).Scan(&lastID); err != nil {
+			if err = db.QueryRow("INSERT INTO Jobs (publish_date, title, description, section) VALUES ($1, $2, $3, $4) RETURNING id", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0]).Scan(&lastID); err != nil {
 					log.Println(err)
 			}
 			if _, err = db.Exec("INSERT INTO Tags (job, tag) VALUES ($1, $2)", lastID, r.Form["tags"][0]); err != nil {
