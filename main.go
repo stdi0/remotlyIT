@@ -158,20 +158,21 @@ func main() {
 		if err != nil {
 			log.Println(err)
 		}
-
+		count := 0
 		switch update.Message.Text {
+			case "Все вакансии":
+				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
 			case "Программисты":
 				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}}))
 				sendMessage(update.Message.Chat.Id, "Программисты", k)
-				log.Println("JSON:", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
+				count = 0
 				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
 				if err != nil {
 					log.Println(err)
 				}
-				count := 0
 				for rows.Next() {
 					var publishDate time.Time
 					var title, description string
@@ -179,11 +180,40 @@ func main() {
 					if err != nil {
 						log.Println(err)
 					}
-					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")
+					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё 5)"}, {"Назад"}})))
+					count++
+					if count == 4 {
+						break
+					}
 				}
 				if count == 0 {
 					sendMessage(update.Message.Chat.Id, "Вакансий нет", "")
 				}
+			case "Все (ещё 5)":
+				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
+				if err != nil {
+					log.Println(err)
+				}
+				i := 0
+				count := count + 4
+				for rows.Next() {
+					if i < (count - 4) {
+						continue
+					}
+					var publishDate time.Time
+					var title, description string
+					err = rows.Scan(&publishDate, &title, &description)
+					if err != nil {
+						log.Println(err)
+					}
+					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё 5)"}, {"Назад"}})))
+					i++
+					if i == count {
+						break
+					}
+				}
+			case "Назад":
+				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
 			case "C➕➕":
 				selectAndSend("c++", update.Message.Chat.Id)
 			case "Python":
@@ -192,8 +222,6 @@ func main() {
 				selectAndSend("golang", update.Message.Chat.Id)
 			case "Дизайнеры":
 				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
-			case "Все вакансии":
-				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
 			default:
 				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
 				//log.Println(message)
