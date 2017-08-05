@@ -158,7 +158,6 @@ func main() {
 		if err != nil {
 			log.Println(err)
 		}
-		var count int
 		switch update.Message.Text {
 			case "Все вакансии":
 				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
@@ -168,7 +167,7 @@ func main() {
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
-				count = 0
+				count := 0
 				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
 				if err != nil {
 					log.Println(err)
