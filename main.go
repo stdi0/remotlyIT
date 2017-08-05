@@ -195,7 +195,7 @@ func main() {
 					log.Println(err)
 				}
 				i := 0
-				count := count + 4
+				count = count + 4
 				log.Println("TEST", i, count)
 				for rows.Next() {
 					if i < (count - 4) {
