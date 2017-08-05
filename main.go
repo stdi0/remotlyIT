@@ -167,7 +167,7 @@ func main() {
 					if err != nil {
 						log.Println(err)
 					}
-					SendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")	
+					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")	
 				}
 				
 			case "Дизайнеры":
