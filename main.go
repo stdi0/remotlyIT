@@ -136,7 +136,7 @@ func selectAndSend(tag string, chatID int) {
 		count++
 	}
 	if count == 0 {
-		sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
+		sendMessage(chatID, publishDate.String() + "Вакансий нет", "")
 	}
 }
 
