@@ -163,7 +163,7 @@ func main() {
 					}
 					var publishDate time.Time
 					var title, description string
-					err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + jobID + "'").Scan(&publishDate, &title, &description)
+					err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description)
 					if err != nil {
 						log.Println(err)
 					}
