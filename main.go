@@ -119,7 +119,7 @@ func selectAndSend(tag string, chatID int) {
 	if err != nil {
 		log.Println(err)
 	}
-	if rows == "" {
+	if rows.String() == "" {
 		sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
 		return
 	}
@@ -167,7 +167,7 @@ func main() {
 				//log.Println(message)
 			case "Все":
 				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
-				if rows == "" {
+				if rows.String() == "" {
 					sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
 					return
 				}
