@@ -196,6 +196,7 @@ func main() {
 				}
 				i := 0
 				count := count + 4
+				log.Println("TEST", i, count)
 				for rows.Next() {
 					if i < (count - 4) {
 						i++
@@ -207,7 +208,7 @@ func main() {
 					if err != nil {
 						log.Println(err)
 					}
-					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё 5)"}, {"Назад"}})))
+					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
 					i++
 					if i == count {
 						break
