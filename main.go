@@ -111,7 +111,7 @@ func replyMarkup(keyboard [][]string) []byte {
 }
 
 func selectAndSend(tag string, chatID int) {
-	rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = '" + tag "'")
+	rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = '" + tag + "'")
 	if err != nil {
 		log.Println(err)
 	}
