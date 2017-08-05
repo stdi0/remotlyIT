@@ -199,11 +199,13 @@ func main() {
 				log.Println("STAGE 2", count)
 				count = count + 4
 				log.Println("TEST", i, count)
+				foo := false
 				for rows.Next() {
 					if i < (count - 4) {
 						i++
 						continue
 					}
+					foo = true
 					var publishDate time.Time
 					var title, description string
 					err = rows.Scan(&publishDate, &title, &description)
@@ -215,6 +217,9 @@ func main() {
 					if i == count {
 						break
 					}
+				}
+				if foo == false {
+					sendMessage(update.Message.Chat.Id, "Вакансий больше нет :)", string(replyMarkup([][]string{{"Назад"}})))
 				}
 			case "Назад":
 				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
