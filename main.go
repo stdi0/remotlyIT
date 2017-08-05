@@ -119,10 +119,7 @@ func selectAndSend(tag string, chatID int) {
 	if err != nil {
 		log.Println(err)
 	}
-	if len(rows) == 0 {
-		sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
-		return
-	}
+	count := 0
 	for rows.Next() {
 		var jobID int
 		err = rows.Scan(&jobID)
@@ -136,6 +133,10 @@ func selectAndSend(tag string, chatID int) {
 			log.Println(err)
 		}
 		sendMessage(chatID, publishDate.String() + " " + title + " " + description, "")	
+		count++
+	}
+	if count == 0 {
+		sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
 	}
 }
 
@@ -167,13 +168,10 @@ func main() {
 				//log.Println(message)
 			case "Все":
 				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
-				if len(rows) == 0 {
-					sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
-					return
-				}
 				if err != nil {
 					log.Println(err)
 				}
+				count := 0
 				for rows.Next() {
 					var publishDate time.Time
 					var title, description string
@@ -182,6 +180,9 @@ func main() {
 						log.Println(err)
 					}
 					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")
+				}
+				if count == 0 {
+					sendMessage(update.Message.Chat.Id, publishDate.String() + "Вакансий нет", "")
 				}
 			case "C➕➕":
 				selectAndSend("c++", update.Message.Chat.Id)
