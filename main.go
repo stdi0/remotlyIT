@@ -180,7 +180,7 @@ func main() {
 					log.Println(err)
 			}
 			s := strings.TrimSpace(r.Form["tags"][0])
-			s := strings.Split(s, ",")
+			s = strings.Split(s, ",")
 			for _, v := range s {
 				if _, err = db.Exec("INSERT INTO Tags (job_id, tag) VALUES ($1, $2)", lastID, v); err != nil {
 						log.Println(err)
