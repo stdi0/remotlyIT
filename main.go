@@ -180,7 +180,7 @@ func main() {
 					if err != nil {
 						log.Println(err)
 					}
-					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё 5)"}, {"Назад"}})))
+					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
 					count++
 					if count == 4 {
 						break
@@ -189,7 +189,7 @@ func main() {
 				if count == 0 {
 					sendMessage(update.Message.Chat.Id, "Вакансий нет", "")
 				}
-			case "Все (ещё 5)":
+			case "Все (ещё)":
 				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
 				if err != nil {
 					log.Println(err)
@@ -198,6 +198,7 @@ func main() {
 				count := count + 4
 				for rows.Next() {
 					if i < (count - 4) {
+						i++
 						continue
 					}
 					var publishDate time.Time
