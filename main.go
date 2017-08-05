@@ -186,7 +186,7 @@ func main() {
 						break
 					}
 				}
-				log.Println("STAGE 1", count)
+				log.Println("STAGE 1")
 				if count == 0 {
 					sendMessage(update.Message.Chat.Id, "Вакансий нет", "")
 				}
