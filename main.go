@@ -151,7 +151,7 @@ func main() {
 					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")
 				}
 			case "C➕➕":
-				err := db.Query("SELECT job_id FROM Tags WHERE tag = 'C++'")
+				rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = 'C++'")
 				if err != nil {
 					log.Println(err)
 				}
