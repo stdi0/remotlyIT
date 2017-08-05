@@ -111,6 +111,10 @@ func replyMarkup(keyboard [][]string) []byte {
 }
 
 func selectAndSend(tag string, chatID int) {
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Println(err)
+	}
 	rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = '" + tag + "'")
 	if err != nil {
 		log.Println(err)
