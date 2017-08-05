@@ -110,6 +110,27 @@ func replyMarkup(keyboard [][]string) []byte {
 	return j
 }
 
+func selectAndSend(tag string, chatID int) {
+	rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = '" + tag "'")
+	if err != nil {
+		log.Println(err)
+	}
+	for rows.Next() {
+		var jobID int
+		err = rows.Scan(&jobID)
+		if err != nil {
+			log.Println(err)
+		}
+		var publishDate time.Time
+		var title, description string
+		err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description)
+		if err != nil {
+			log.Println(err)
+		}
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, "")	
+	}
+}
+
 func main() {
 	SetWebhook()
 	port := os.Getenv("PORT")
@@ -151,26 +172,11 @@ func main() {
 					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")
 				}
 			case "C➕➕":
-				rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = 'C++'")
-				if err != nil {
-					log.Println(err)
-				}
-				for rows.Next() {
-					var jobID int
-					err = rows.Scan(&jobID)
-					if err != nil {
-						log.Println(err)
-					}
-					var publishDate time.Time
-					var title, description string
-					err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description)
-					if err != nil {
-						log.Println(err)
-					}
-					log.Println("TITLE", title)
-					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")	
-				}
-				
+				selectAndSend("c++", update.Message.Chat.Id)
+			case "Python":
+				selectAndSend("python", update.Message.Chat.Id)
+			case "Golang":
+				selectAndSend("golang", update.Message.Chat.Id)
 			case "Дизайнеры":
 				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
 			case "Все вакансии":
@@ -202,7 +208,7 @@ func main() {
 			}
 			s := strings.Split(r.Form["tags"][0], ",")
 			for _, v := range s {
-				if _, err = db.Exec("INSERT INTO Tags (job_id, tag) VALUES ($1, $2)", lastID, strings.TrimSpace(v)); err != nil {
+				if _, err = db.Exec("INSERT INTO Tags (job_id, tag) VALUES ($1, $2)", lastID, strings.ToLower(strings.TrimSpace(v))); err != nil {
 						log.Println(err)
 				}
 			}
