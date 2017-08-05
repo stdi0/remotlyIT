@@ -167,6 +167,7 @@ func main() {
 					if err != nil {
 						log.Println(err)
 					}
+					log.Println("TITLE", title)
 					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")	
 				}
 				
