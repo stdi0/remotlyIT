@@ -186,7 +186,7 @@ func main() {
 						break
 					}
 				}
-				log.Println('STAGE 1', count)
+				log.Println("STAGE 1", count)
 				if count == 0 {
 					sendMessage(update.Message.Chat.Id, "Вакансий нет", "")
 				}
@@ -196,7 +196,7 @@ func main() {
 					log.Println(err)
 				}
 				i := 0
-				log.Println('STAGE 2', count)
+				log.Println("STAGE 2", count)
 				count = count + 4
 				log.Println("TEST", i, count)
 				for rows.Next() {
