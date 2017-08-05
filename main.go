@@ -142,14 +142,34 @@ func main() {
 					log.Println(err)
 				}
 				for rows.Next() {
-					var publish_date time.Time
+					var publishDate time.Time
 					var title, description string
-					err = rows.Scan(&publish_date, &title, &description)
+					err = rows.Scan(&publishDate, &title, &description)
 					if err != nil {
 						log.Println(err)
 					}
-					sendMessage(update.Message.Chat.Id, publish_date.String() + " " + title + " " + description, "")
+					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")
 				}
+			case "C➕➕":
+				err := db.Query("SELECT job_id FROM Tags WHERE tag = 'C++'")
+				if err != nil {
+					log.Println(err)
+				}
+				for rows.Next() {
+					var jobID int
+					err = rows.Scan(&jobID)
+					if err != nil {
+						log.Println(err)
+					}
+					var publishDate time.Time
+					var title, description string
+					err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + jobID + "'").Scan(&publishDate, &title, &description)
+					if err != nil {
+						log.Println(err)
+					}
+					SendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, "")	
+				}
+				
 			case "Дизайнеры":
 				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
 			case "Все вакансии":
