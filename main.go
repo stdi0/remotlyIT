@@ -199,11 +199,9 @@ func main() {
 			if err = db.QueryRow("INSERT INTO Jobs (publish_date, title, description, section) VALUES ($1, $2, $3, $4) RETURNING id", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0]).Scan(&lastID); err != nil {
 					log.Println(err)
 			}
-			s := strings.TrimSpace(r.Form["tags"][0])
-			log.Println("TRIMSPACE", s)
-			result := strings.Split(s, ",")
-			for _, v := range result {
-				if _, err = db.Exec("INSERT INTO Tags (job_id, tag) VALUES ($1, $2)", lastID, v); err != nil {
+			s := strings.Split(s, ",")
+			for _, v := range s {
+				if _, err = db.Exec("INSERT INTO Tags (job_id, tag) VALUES ($1, $2)", lastID, strings.TrimSpace(v)); err != nil {
 						log.Println(err)
 				}
 			}
