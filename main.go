@@ -251,6 +251,7 @@ func main() {
 	SetWebhook()
 	port := os.Getenv("PORT")
 	var count int
+	var pointer string
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		body, _ := ioutil.ReadAll(r.Body)
@@ -261,7 +262,6 @@ func main() {
 			log.Println(err)
 		}
 		log.Println("Update: ", update)
-		var pointer string
 		switch update.Message.Text {
 			case "Все вакансии":
 				pointer = "Все вакансии"
