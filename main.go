@@ -229,7 +229,9 @@ func main() {
 				//log.Println(message)
 			case "Все":
 				count = sectionSend("programmers", update.Message.Chat.Id)
+				log.Println("STAGE 1", count)
 			case "Все (ещё)":
+				log.Println("STAGE 2", count)
 				count = sectionCountSend("programmers", update.Message.Chat.Id, count)
 			case "Назад":
 				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
