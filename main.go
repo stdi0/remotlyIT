@@ -350,7 +350,7 @@ func main() {
 				pointer = "Все вакансии"
 				count = sectionSend("designers", update.Message.Chat.Id, "Последние (ещё)")
 			default:
-				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Разработчики"}, {"Дизайнеры"}})))
+				sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Разработчики"}, {"Дизайнеры"}})))
 				//log.Println(message)
 		}
 		/*for _, v := range update.Result {
