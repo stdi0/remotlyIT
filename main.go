@@ -110,7 +110,7 @@ func replyMarkup(keyboard [][]string) []byte {
 	return j
 }
 
-func selectAndSend(tag string, chatID int) {
+func tagSend(tag string, chatID int, text string) int {
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Println(err)
@@ -132,15 +132,57 @@ func selectAndSend(tag string, chatID int) {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, "")	
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		count++
 	}
 	if count == 0 {
 		sendMessage(chatID, "Вакансий нет", "")
 	}
+	return count
 }
 
-func sectionSend(section string, chatID int) int {
+func tagCountSend(tag string, chatID int, count int, text string) int {
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Println(err)
+	}
+	rows, err := db.Query("SELECT job_id FROM Tags WHERE tag = '" + tag + "'")
+	if err != nil {
+		log.Println(err)
+	}
+	i := 0
+	count = count + 4
+	foo := false
+	for rows.Next() {
+		if i < (count - 4) {
+			i++
+			continue
+		}
+		foo = true
+		var jobID int
+		err = rows.Scan(&jobID)
+		if err != nil {
+			log.Println(err)
+		}
+		var publishDate time.Time
+		var title, description string
+		err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description)
+		if err != nil {
+			log.Println(err)
+		}
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		i++
+		if i == count {
+			break
+		}
+	}
+	if foo == false {
+		sendMessage(chatID, "Вакансий больше нет :)", string(replyMarkup([][]string{{"Назад"}})))
+	}
+	return count
+}
+
+func sectionSend(section string, chatID int, text string) int {
 	count := 0
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -157,7 +199,7 @@ func sectionSend(section string, chatID int) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		count++
 		if count == 4 {
 			break
@@ -169,7 +211,7 @@ func sectionSend(section string, chatID int) int {
 	return count
 }
 
-func sectionCountSend(section string, chatID int, count int) int {
+func sectionCountSend(section string, chatID int, count int, text string) int {
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Println(err)
@@ -193,7 +235,7 @@ func sectionCountSend(section string, chatID int, count int) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		i++
 		if i == count {
 			break
@@ -229,19 +271,23 @@ func main() {
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
-				count = sectionSend("programmers", update.Message.Chat.Id)
-				log.Println("STAGE 1", count)
+				count = sectionSend("programmers", update.Message.Chat.Id, "Все (ещё)")
 			case "Все (ещё)":
-				log.Println("STAGE 2", count)
-				count = sectionCountSend("programmers", update.Message.Chat.Id, count)
+				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Все (ещё)")
 			case "Назад":
 				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
-			case "C➕➕":
-				selectAndSend("c++", update.Message.Chat.Id)
+			case "C➕➕": 
+				count = tagSend("c++", update.Message.Chat.Id, "C➕➕ (ещё)")
+			case "C➕➕ (ещё)":
+				count = tagCountSend("c++", update.Message.Chat.Id, count, "C➕➕ (ещё)")
 			case "Python":
-				selectAndSend("python", update.Message.Chat.Id)
+				count = tagSend("python", update.Message.Chat.Id, "python (ещё)")
+			case "Python (ещё)":
+				count = tagCountSend("c++", update.Message.Chat.Id, count, "Python (ещё)")
 			case "Golang":
-				selectAndSend("golang", update.Message.Chat.Id)
+				count = tagSend("golang", update.Message.Chat.Id, "golang (ещё)")
+			case "Golang (ещё)":
+				count = tagCountSend("c++", update.Message.Chat.Id, count, "Golang (ещё)")
 			case "Дизайнеры":
 				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
 			default:
