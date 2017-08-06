@@ -306,9 +306,8 @@ func main() {
 					pointer = "Все вакансии"
 				}
 			case "Дизайнеры":
-				sendMessage(update.Message.Chat.Id, "Вакансии для дизайнеров", "")
-			case "Главное меню":
-				sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
+				pointer = "Все вакансии"
+				count = sectionSend("designers", update.Message.Chat.Id, "Все (ещё)")
 			default:
 				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
 				//log.Println(message)
