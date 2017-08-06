@@ -136,7 +136,7 @@ func tagSend(tag string, chatID int, text string) int {
 		count++
 	}
 	if count == 0 {
-		sendMessage(chatID, "Вакансий нет", "")
+		sendMessage(chatID, "Вакансий нет", string(replyMarkup([][]string{{text}, {"Назад"}})))
 	}
 	return count
 }
@@ -206,7 +206,7 @@ func sectionSend(section string, chatID int, text string) int {
 		}
 	}
 	if count == 0 {
-		sendMessage(chatID, "Вакансий нет", "")
+		sendMessage(chatID, "Вакансий нет", string(replyMarkup([][]string{{text}, {"Назад"}})))
 	}
 	return count
 }
