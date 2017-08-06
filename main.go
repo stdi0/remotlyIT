@@ -281,11 +281,11 @@ func main() {
 			case "C➕➕ (ещё)":
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "C➕➕ (ещё)")
 			case "Python":
-				count = tagSend("python", update.Message.Chat.Id, "python (ещё)")
+				count = tagSend("python", update.Message.Chat.Id, "Python (ещё)")
 			case "Python (ещё)":
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "Python (ещё)")
 			case "Golang":
-				count = tagSend("golang", update.Message.Chat.Id, "golang (ещё)")
+				count = tagSend("golang", update.Message.Chat.Id, "Golang (ещё)")
 			case "Golang (ещё)":
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "Golang (ещё)")
 			case "Дизайнеры":
