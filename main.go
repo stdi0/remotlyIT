@@ -270,7 +270,7 @@ func main() {
 				count = sectionCountSend("programmers' OR section = 'designers", update.Message.Chat.Id, count, "Все вакансии (ещё)")
 			case "Программисты":
 				pointer = "Все вакансии"
-				k := string(replyMarkup([][]string{{"Все"}, {"Java", "Python"}, {"PHP", "C#"}, {"JavaScript", "C/C➕➕"}, {"Golang", "Ruby"}, {"Назад"}}))
+				k := string(replyMarkup([][]string{{"Все"}, {"Java", "Python"}, {"PHP", "C#"}}))
 				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
