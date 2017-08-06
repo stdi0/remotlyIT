@@ -292,10 +292,10 @@ func main() {
 			case "Ruby": 
 				pointer = "Программисты"
 				count = tagSend("c++", update.Message.Chat.Id, "Ruby (ещё)")	
-			case "C/C++": 
+			case "C/C%23": 
 				pointer = "Программисты"
 				count = tagSend("c++", update.Message.Chat.Id, "C➕➕ (ещё)")
-			case "C/C++ (ещё)":
+			case "C/C%23 (ещё)":
 				pointer = "Программисты"
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "C➕➕ (ещё)")
 			case "Python":
