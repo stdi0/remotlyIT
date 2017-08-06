@@ -261,35 +261,50 @@ func main() {
 			log.Println(err)
 		}
 		log.Println("Update: ", update)
-
+		var pointer string
 		switch update.Message.Text {
 			case "Все вакансии":
+				pointer = "Все вакансии"
 				count = sectionSend("programmers OR section = designers", update.Message.Chat.Id, "Все вакансии (ещё)")
 			case "Все вакансии (ещё)":
 				count = sectionCountSend("programmers OR section = designers", update.Message.Chat.Id, count, "Все вакансии (ещё)")
 			case "Программисты":
-				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Главное меню"}}))
+				pointer = "Все вакансии"
+				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Назад"}}))
 				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
+				pointer = "Программисты"
 				count = sectionSend("programmers", update.Message.Chat.Id, "Все (ещё)")
 			case "Все (ещё)":
+				pointer = "Программисты"
 				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Все (ещё)")
 			case "C➕➕": 
+				pointer = "Программисты"
 				count = tagSend("c++", update.Message.Chat.Id, "C➕➕ (ещё)")
 			case "C➕➕ (ещё)":
+				pointer = "Программисты"
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "C➕➕ (ещё)")
 			case "Python":
+				pointer = "Программисты"
 				count = tagSend("python", update.Message.Chat.Id, "Python (ещё)")
 			case "Python (ещё)":
+				pointer = "Программисты"
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "Python (ещё)")
 			case "Golang":
+				pointer = "Программисты"
 				count = tagSend("golang", update.Message.Chat.Id, "Golang (ещё)")
 			case "Golang (ещё)":
+				pointer = "Программисты"
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "Golang (ещё)")
 			case "Назад":
-				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Главное меню"}})))
+				if pointer == "Все вакансии" {
+					sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
+				} else if pointer == "Программисты" {
+					sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Назад"}})))
+					pointer = "Все вакансии"
+				}
 			case "Дизайнеры":
 				sendMessage(update.Message.Chat.Id, "Вакансии для дизайнеров", "")
 			case "Главное меню":
