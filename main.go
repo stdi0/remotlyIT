@@ -86,7 +86,7 @@ func sendMessage(chatID int, text string, replyMarkup string) Message {
 	path := UrlApiTelegram + Token
 	query := "/sendMessage?chat_id="
 	c := http.Client{}
-	resp, err := c.Get(path + query + strconv.Itoa(chatID) + "&parse_mode=" + text + "&reply_markup=" + replyMarkup)
+	resp, err := c.Get(path + query + strconv.Itoa(chatID) + "&text=" + text + "&reply_markup=" + replyMarkup)
 	if err != nil {
 		log.Println(err)
 	}
@@ -132,7 +132,7 @@ func tagSend(tag string, chatID int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " *" + title + "*%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		count++
 	}
 	if count == 0 {
@@ -170,7 +170,7 @@ func tagCountSend(tag string, chatID int, count int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " *" + title + "*%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		i++
 		if i == count {
 			break
@@ -199,7 +199,7 @@ func sectionSend(section string, chatID int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " *" + title + "*%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		count++
 		if count == 4 {
 			break
@@ -235,7 +235,7 @@ func sectionCountSend(section string, chatID int, count int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " *" + title + "*%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		i++
 		if i == count {
 			break
