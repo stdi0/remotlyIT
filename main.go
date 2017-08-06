@@ -278,7 +278,6 @@ func main() {
 				pointer = "Программисты"
 				count = sectionSend("programmers", update.Message.Chat.Id, "Все (ещё)")
 			case "Все (ещё)":
-				pointer = "Программисты"
 				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Все (ещё)")
 			case "Java": 
 				pointer = "Программисты"
