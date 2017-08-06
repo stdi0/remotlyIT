@@ -132,7 +132,7 @@ func tagSend(tag string, chatID int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		count++
 	}
 	if count == 0 {
@@ -170,7 +170,7 @@ func tagCountSend(tag string, chatID int, count int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		i++
 		if i == count {
 			break
@@ -199,7 +199,7 @@ func sectionSend(section string, chatID int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		count++
 		if count == 4 {
 			break
@@ -235,7 +235,7 @@ func sectionCountSend(section string, chatID int, count int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		i++
 		if i == count {
 			break
@@ -264,18 +264,18 @@ func main() {
 
 		switch update.Message.Text {
 			case "Все вакансии":
-				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
+				count = sectionSend("programmers OR section = designers", update.Message.Chat.Id, "Все вакансии (ещё)")
+			case "Все вакансии (ещё)":
+				count = sectionCountSend("programmers OR section = designers", update.Message.Chat.Id, count, "Все вакансии (ещё)")
 			case "Программисты":
-				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}}))
-				sendMessage(update.Message.Chat.Id, "Программисты", k)
+				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Главное меню"}}))
+				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
 				count = sectionSend("programmers", update.Message.Chat.Id, "Все (ещё)")
 			case "Все (ещё)":
 				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Все (ещё)")
-			case "Назад":
-				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
 			case "C➕➕": 
 				count = tagSend("c++", update.Message.Chat.Id, "C➕➕ (ещё)")
 			case "C➕➕ (ещё)":
@@ -288,8 +288,12 @@ func main() {
 				count = tagSend("golang", update.Message.Chat.Id, "Golang (ещё)")
 			case "Golang (ещё)":
 				count = tagCountSend("c++", update.Message.Chat.Id, count, "Golang (ещё)")
+			case "Назад":
+				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Главное меню"}})))
 			case "Дизайнеры":
-				sendMessage(update.Message.Chat.Id, "Дизайнеры", "")
+				sendMessage(update.Message.Chat.Id, "Вакансии для дизайнеров", "")
+			case "Главное меню":
+				sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
 			default:
 				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
 				//log.Println(message)
