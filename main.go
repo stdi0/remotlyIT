@@ -103,7 +103,7 @@ func sendMessage(chatID int, text string, replyMarkup string) Message {
 func replyMarkup(keyboard [][]string) []byte {
 	replyMarkup := ReplyKeyboardMarkup{
 		Keyboard: keyboard, 
-		ResizeKeyboard: true, 
+		ResizeKeyboard: false, 
 		OneTimeKeyboard: true,
 	}
 	j, _ := json.Marshal(replyMarkup)
