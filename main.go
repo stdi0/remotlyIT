@@ -132,7 +132,7 @@ func tagSend(tag string, chatID int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "\n" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		count++
 	}
 	if count == 0 {
@@ -170,7 +170,7 @@ func tagCountSend(tag string, chatID int, count int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "\n" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		i++
 		if i == count {
 			break
@@ -199,7 +199,7 @@ func sectionSend(section string, chatID int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "\n" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		count++
 		if count == 4 {
 			break
@@ -235,7 +235,7 @@ func sectionCountSend(section string, chatID int, count int, text string) int {
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + " " + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "\n" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		i++
 		if i == count {
 			break
