@@ -142,6 +142,10 @@ func selectAndSend(tag string, chatID int) {
 
 func sectionSend(section string, chatID int) int {
 	count := 0
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Println(err)
+	}
 	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
 	if err != nil {
 		log.Println(err)
@@ -166,6 +170,10 @@ func sectionSend(section string, chatID int) int {
 }
 
 func sectionCountSend(section string, chatID int, count int) int {
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Println(err)
+	}
 	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
 	if err != nil {
 		log.Println(err)
@@ -211,10 +219,6 @@ func main() {
 		}
 		log.Println("Update: ", update)
 
-		db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-		if err != nil {
-			log.Println(err)
-		}
 		switch update.Message.Text {
 			case "Все вакансии":
 				sendMessage(update.Message.Chat.Id, "Все вакансии", "")
