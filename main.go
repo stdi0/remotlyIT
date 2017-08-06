@@ -140,6 +140,62 @@ func selectAndSend(tag string, chatID int) {
 	}
 }
 
+func sectionSend(section string, chatID int) int {
+	count := 0
+	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
+	if err != nil {
+		log.Println(err)
+	}
+	for rows.Next() {
+		var publishDate time.Time
+		var title, description string
+		err = rows.Scan(&publishDate, &title, &description)
+		if err != nil {
+			log.Println(err)
+		}
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
+		count++
+		if count == 4 {
+			break
+		}
+	}
+	if count == 0 {
+		sendMessage(chatID, "Вакансий нет", "")
+	}
+	return count
+}
+
+sectionCountSend(section string, chatID int, count int) int {
+	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
+	if err != nil {
+		log.Println(err)
+	}
+	i := 0
+	foo := false
+	for rows.Next() {
+		if i < (count - 4) {
+			i++
+			continue
+		}
+		foo = true
+		var publishDate time.Time
+		var title, description string
+		err = rows.Scan(&publishDate, &title, &description)
+		if err != nil {
+			log.Println(err)
+		}
+		sendMessage(chatID, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
+		i++
+		if i == count {
+			break
+		}
+	}
+	if foo == false {
+		sendMessage(chatID, "Вакансий больше нет :)", string(replyMarkup([][]string{{"Назад"}})))
+	}
+	return count
+}
+
 func main() {
 	SetWebhook()
 	port := os.Getenv("PORT")
@@ -168,59 +224,9 @@ func main() {
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
-				count = 0
-				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
-				if err != nil {
-					log.Println(err)
-				}
-				for rows.Next() {
-					var publishDate time.Time
-					var title, description string
-					err = rows.Scan(&publishDate, &title, &description)
-					if err != nil {
-						log.Println(err)
-					}
-					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
-					count++
-					if count == 4 {
-						break
-					}
-				}
-				log.Println("STAGE 1", count)
-				if count == 0 {
-					sendMessage(update.Message.Chat.Id, "Вакансий нет", "")
-				}
+				count = sectionSend('programmers', update.Message.Chat.Id)
 			case "Все (ещё)":
-				rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = 'programmers'")
-				if err != nil {
-					log.Println(err)
-				}
-				i := 0
-				log.Println("STAGE 2", count)
-				count = count + 4
-				log.Println("TEST", i, count)
-				foo := false
-				for rows.Next() {
-					if i < (count - 4) {
-						i++
-						continue
-					}
-					foo = true
-					var publishDate time.Time
-					var title, description string
-					err = rows.Scan(&publishDate, &title, &description)
-					if err != nil {
-						log.Println(err)
-					}
-					sendMessage(update.Message.Chat.Id, publishDate.String() + " " + title + " " + description, string(replyMarkup([][]string{{"Все (ещё)"}, {"Назад"}})))
-					i++
-					if i == count {
-						break
-					}
-				}
-				if foo == false {
-					sendMessage(update.Message.Chat.Id, "Вакансий больше нет :)", string(replyMarkup([][]string{{"Назад"}})))
-				}
+				count = sectionCountSend('programmers', update.Message.Chat.Id, count)
 			case "Назад":
 				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
 			case "C➕➕":
