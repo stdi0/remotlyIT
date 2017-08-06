@@ -265,9 +265,9 @@ func main() {
 		switch update.Message.Text {
 			case "Все вакансии":
 				pointer = "Все вакансии"
-				count = sectionSend("programmers' OR section = 'designers'", update.Message.Chat.Id, "Все вакансии (ещё)")
+				count = sectionSend("programmers' OR section = 'designers", update.Message.Chat.Id, "Все вакансии (ещё)")
 			case "Все вакансии (ещё)":
-				count = sectionCountSend("programmers' OR section = 'designers'", update.Message.Chat.Id, count, "Все вакансии (ещё)")
+				count = sectionCountSend("programmers' OR section = 'designers", update.Message.Chat.Id, count, "Все вакансии (ещё)")
 			case "Программисты":
 				pointer = "Все вакансии"
 				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Назад"}}))
