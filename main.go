@@ -127,12 +127,12 @@ func tagSend(tag string, chatID int, text string) int {
 			log.Println(err)
 		}
 		var publishDate time.Time
-		var title, description string
-		err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description)
+		var title, description, url string
+		err := db.QueryRow("SELECT publish_date, title, description, url FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description, &url)
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		count++
 	}
 	if count == 0 {
@@ -165,12 +165,12 @@ func tagCountSend(tag string, chatID int, count int, text string) int {
 			log.Println(err)
 		}
 		var publishDate time.Time
-		var title, description string
-		err := db.QueryRow("SELECT publish_date, title, description FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description)
+		var title, description, url string
+		err := db.QueryRow("SELECT publish_date, title, description, url FROM Jobs WHERE id = '" + strconv.Itoa(jobID) + "'").Scan(&publishDate, &title, &description, &url)
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))	
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))	
 		i++
 		if i == count {
 			break
@@ -194,12 +194,12 @@ func sectionSend(section string, chatID int, text string) int {
 	}
 	for rows.Next() {
 		var publishDate time.Time
-		var title, description string
-		err = rows.Scan(&publishDate, &title, &description)
+		var title, description, url string
+		err = rows.Scan(&publishDate, &title, &description, &url)
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		count++
 		if count == 4 {
 			break
@@ -230,12 +230,12 @@ func sectionCountSend(section string, chatID int, count int, text string) int {
 		}
 		foo = true
 		var publishDate time.Time
-		var title, description string
-		err = rows.Scan(&publishDate, &title, &description)
+		var title, description, url string
+		err = rows.Scan(&publishDate, &title, &description, &url)
 		if err != nil {
 			log.Println(err)
 		}
-		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description, string(replyMarkup([][]string{{text}, {"Назад"}})))
+		sendMessage(chatID, publishDate.Format("2006-01-02") + " " + title + "%0A" + description + "%0A" + url, string(replyMarkup([][]string{{text}, {"Назад"}})))
 		i++
 		if i == count {
 			break
@@ -271,14 +271,14 @@ func main() {
 			case "Разработчики":
 				pointer = "Все вакансии"
 				//k := string(replyMarkup([][]string{{"Все"}, {"Java", "Python"}, {"PHP", "C#"}, {"JavaScript", "C/C➕➕"}, {"Golang", "Ruby"}, {"Назад"}}))
-				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"Backend", "Frontend"}, {"Java", "Python"}, {"PHP", "C%23"}, {"JavaScript", "C/C%2B%2B"}, {"Golang", "Ruby"}, {"Назад"}})))
+				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Последние"}, {"Backend", "Frontend"}, {"Java", "Python"}, {"PHP", "C%23"}, {"JavaScript", "C/C%2B%2B"}, {"Golang", "Ruby"}, {"Назад"}})))
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
-			case "Все":
+			case "Последние":
 				pointer = "Разработчики"
-				count = sectionSend("programmers", update.Message.Chat.Id, "Все (ещё)")
-			case "Все (ещё)":
-				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Все (ещё)")
+				count = sectionSend("programmers", update.Message.Chat.Id, "Последние (ещё)")
+			case "Последние (ещё)":
+				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Последние (ещё)")
 			case "Backend":
 				pointer = "Разработчики"
 				count = tagSend("backend", update.Message.Chat.Id, "Backend (ещё)")	
@@ -343,12 +343,12 @@ func main() {
 				if pointer == "Все вакансии" {
 					sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Разработчики"}, {"Дизайнеры"}})))
 				} else if pointer == "Разработчики" {
-					sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"Backend", "Frontend"}, {"Java", "Python"}, {"PHP", "C%23"}, {"JavaScript", "C/C%2B%2B"}, {"Golang", "Ruby"}, {"Назад"}})))
+					sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Последние"}, {"Backend", "Frontend"}, {"Java", "Python"}, {"PHP", "C%23"}, {"JavaScript", "C/C%2B%2B"}, {"Golang", "Ruby"}, {"Назад"}})))
 					pointer = "Все вакансии"
 				}
 			case "Дизайнеры":
 				pointer = "Все вакансии"
-				count = sectionSend("designers", update.Message.Chat.Id, "Все (ещё)")
+				count = sectionSend("designers", update.Message.Chat.Id, "Последние (ещё)")
 			default:
 				sendMessage(update.Message.Chat.Id, "Это сообщение отобразится при отправке /start", string(replyMarkup([][]string{{"Все вакансии"}, {"Разработчики"}, {"Дизайнеры"}})))
 				//log.Println(message)
@@ -371,7 +371,7 @@ func main() {
 				log.Println(err)
 			}
 			var lastID int
-			if err = db.QueryRow("INSERT INTO Jobs (publish_date, title, description, section) VALUES ($1, $2, $3, $4) RETURNING id", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0]).Scan(&lastID); err != nil {
+			if err = db.QueryRow("INSERT INTO Jobs (publish_date, title, description, section, url) VALUES ($1, $2, $3, $4, $5) RETURNING id", time.Now(), r.Form["title"][0], r.Form["description"][0], r.Form["section"][0], r.Form["url"][0]).Scan(&lastID); err != nil {
 					log.Println(err)
 			}
 			s := strings.Split(r.Form["tags"][0], ",")
