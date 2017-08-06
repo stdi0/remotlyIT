@@ -283,6 +283,9 @@ func main() {
 			case "Java": 
 				pointer = "Программисты"
 				count = tagSend("java", update.Message.Chat.Id, "Java (ещё)")	
+			case "Java (ещё)":
+				pointer = "Программисты"
+				count = tagCountSend("java", update.Message.Chat.Id, count, "Java (ещё)")
 			case "PHP": 
 				pointer = "Программисты"
 				count = tagSend("php", update.Message.Chat.Id, "PHP (ещё)")	
