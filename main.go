@@ -188,7 +188,7 @@ func sectionSend(section string, chatID int, text string) int {
 	if err != nil {
 		log.Println(err)
 	}
-	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
+	rows, err := db.Query("SELECT publish_date, title, description, url FROM Jobs WHERE section = '" + section + "'")
 	if err != nil {
 		log.Println(err)
 	}
@@ -216,7 +216,7 @@ func sectionCountSend(section string, chatID int, count int, text string) int {
 	if err != nil {
 		log.Println(err)
 	}
-	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
+	rows, err := db.Query("SELECT publish_date, title, description, url FROM Jobs WHERE section = '" + section + "'")
 	if err != nil {
 		log.Println(err)
 	}
