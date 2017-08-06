@@ -165,7 +165,7 @@ func sectionSend(section string, chatID int) int {
 	return count
 }
 
-sectionCountSend(section string, chatID int, count int) int {
+func sectionCountSend(section string, chatID int, count int) int {
 	rows, err := db.Query("SELECT publish_date, title, description FROM Jobs WHERE section = '" + section + "'")
 	if err != nil {
 		log.Println(err)
@@ -224,9 +224,9 @@ func main() {
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
 			case "Все":
-				count = sectionSend('programmers', update.Message.Chat.Id)
+				count = sectionSend("programmers", update.Message.Chat.Id)
 			case "Все (ещё)":
-				count = sectionCountSend('programmers', update.Message.Chat.Id, count)
+				count = sectionCountSend("programmers", update.Message.Chat.Id, count)
 			case "Назад":
 				sendMessage(update.Message.Chat.Id, "Программисты", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}})))
 			case "C➕➕":
