@@ -311,7 +311,6 @@ func main() {
 				pointer = "Программисты"
 				count = tagCountSend("c/c++", update.Message.Chat.Id, count, "C/CC%2B%2B (ещё)")
 			case "C#": 
-				sendMessage(update.Message.Chat.Id, "C#", "")
 				pointer = "Программисты"
 				count = tagSend("c#", update.Message.Chat.Id, "C# (ещё)")
 			case "C# (ещё)":
