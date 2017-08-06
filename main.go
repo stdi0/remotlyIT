@@ -179,6 +179,7 @@ func sectionCountSend(section string, chatID int, count int) int {
 		log.Println(err)
 	}
 	i := 0
+	count = count + 4
 	foo := false
 	for rows.Next() {
 		if i < (count - 4) {
