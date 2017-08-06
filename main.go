@@ -282,34 +282,43 @@ func main() {
 				count = sectionCountSend("programmers", update.Message.Chat.Id, count, "Все (ещё)")
 			case "Java": 
 				pointer = "Программисты"
-				count = tagSend("c++", update.Message.Chat.Id, "Java (ещё)")	
+				count = tagSend("java", update.Message.Chat.Id, "Java (ещё)")	
 			case "PHP": 
 				pointer = "Программисты"
-				count = tagSend("c++", update.Message.Chat.Id, "PHP (ещё)")	
+				count = tagSend("php", update.Message.Chat.Id, "PHP (ещё)")	
+			case "PHP (ещё)":
+				pointer = "Программисты"
+				count = tagCountSend("php", update.Message.Chat.Id, count, "PHP (ещё)")
 			case "JavaScript": 
 				pointer = "Программисты"
-				count = tagSend("c++", update.Message.Chat.Id, "JavaScript (ещё)")	
+				count = tagSend("javascript", update.Message.Chat.Id, "JavaScript (ещё)")
+			case "JavaScript (ещё)":
+				pointer = "Программисты"
+				count = tagCountSend("javascript", update.Message.Chat.Id, count, "JavaScript (ещё)")	
 			case "Ruby": 
 				pointer = "Программисты"
-				count = tagSend("c++", update.Message.Chat.Id, "Ruby (ещё)")	
+				count = tagSend("ruby", update.Message.Chat.Id, "Ruby (ещё)")
+			case "Ruby (ещё)":
+				pointer = "Программисты"
+				count = tagCountSend("ruby", update.Message.Chat.Id, count, "Ruby (ещё)")
 			case "C/C++": 
 				pointer = "Программисты"
-				count = tagSend("c++", update.Message.Chat.Id, "C➕➕ (ещё)")
+				count = tagSend("c/c++", update.Message.Chat.Id, "C/CC%2B%2B (ещё)")
 			case "C/C++ (ещё)":
 				pointer = "Программисты"
-				count = tagCountSend("c++", update.Message.Chat.Id, count, "C➕➕ (ещё)")
+				count = tagCountSend("c/c++", update.Message.Chat.Id, count, "C/CC%2B%2B (ещё)")
 			case "Python":
 				pointer = "Программисты"
 				count = tagSend("python", update.Message.Chat.Id, "Python (ещё)")
 			case "Python (ещё)":
 				pointer = "Программисты"
-				count = tagCountSend("c++", update.Message.Chat.Id, count, "Python (ещё)")
+				count = tagCountSend("python", update.Message.Chat.Id, count, "Python (ещё)")
 			case "Golang":
 				pointer = "Программисты"
 				count = tagSend("golang", update.Message.Chat.Id, "Golang (ещё)")
 			case "Golang (ещё)":
 				pointer = "Программисты"
-				count = tagCountSend("c++", update.Message.Chat.Id, count, "Golang (ещё)")
+				count = tagCountSend("golang", update.Message.Chat.Id, count, "Golang (ещё)")
 			case "Назад":
 				if pointer == "Все вакансии" {
 					sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
