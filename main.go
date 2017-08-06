@@ -103,7 +103,7 @@ func sendMessage(chatID int, text string, replyMarkup string) Message {
 func replyMarkup(keyboard [][]string) []byte {
 	replyMarkup := ReplyKeyboardMarkup{
 		Keyboard: keyboard, 
-		ResizeKeyboard: false, 
+		ResizeKeyboard: true, 
 		OneTimeKeyboard: true,
 	}
 	j, _ := json.Marshal(replyMarkup)
@@ -270,7 +270,7 @@ func main() {
 				count = sectionCountSend("programmers' OR section = 'designers", update.Message.Chat.Id, count, "Все вакансии (ещё)")
 			case "Программисты":
 				pointer = "Все вакансии"
-				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Назад"}}))
+				k := string(replyMarkup([][]string{{"Все"}, {"C➕➕", "Python"}, {"Golang", "PHP"}, {"Назад"}}))
 				sendMessage(update.Message.Chat.Id, "Вакансии для программистов", k)
 				//sendMessage(update.Message.Chat.Id, "Доступные команды: 1. 📰\\news - последние новости города и области\n2. 🎉\\events - события города")
 				//log.Println(message)
@@ -302,7 +302,7 @@ func main() {
 				if pointer == "Все вакансии" {
 					sendMessage(update.Message.Chat.Id, "Главное меню", string(replyMarkup([][]string{{"Все вакансии"}, {"Программисты"}, {"Дизайнеры"}})))
 				} else if pointer == "Программисты" {
-					sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"C➕➕"}, {"Python"}, {"Golang"}, {"Назад"}})))
+					sendMessage(update.Message.Chat.Id, "Вакансии для программистов", string(replyMarkup([][]string{{"Все"}, {"C➕➕", "Python"}, {"Golang", "PHP"}, {"Назад"}})))
 					pointer = "Все вакансии"
 				}
 			case "Дизайнеры":
